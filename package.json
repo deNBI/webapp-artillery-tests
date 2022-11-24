@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "test:local": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e local",
+    "test:staging": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e staging",
+    "lint": "./node_modules/.bin/eslint ./processors/*"
+  },
+  "dependencies": {
+    "artillery": "^2.0.0-24",
+    "artillery-engine-playwright": "^0.2.1",
+    "playwright": "1.28.0",
+    "@playwright/test": "1.28.1"
+  },
+  "devDependencies": {
+    "eslint": "8.28.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
+  }
+}

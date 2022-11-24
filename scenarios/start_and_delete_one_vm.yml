@@ -1,0 +1,11 @@
+config:
+  processor: "./processors/virtualMachineFunctions.js"
+  phases:
+    - name: 'warming up'
+      duration: 2
+      arrivalRate: 2
+scenarios:
+  - name: 'start a vm test'
+    engine: playwright
+    flowFunction: "startVM"
+    flow: []
