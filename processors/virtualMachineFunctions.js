@@ -14,7 +14,7 @@ async function startVM(page, vuContext, events) {
   const afterStartVm = performance.now();
   events.emit('counter', 'vusers.vm_started', 1);
   events.emit('histogram', 'vm.start_histogram', (afterStartVm - beforeSelectProject));
-  const vmOverviewPage = new VmOverviewPage(page);
+  const vmOverviewPage = new VmOverviewPage(page, vuContext.vars.target);
   await vmOverviewPage.goto();
   await vmOverviewPage.waitForInstanceToBeActive(fullVmName, 12 * 10000);
   const afterVMActive = performance.now();
