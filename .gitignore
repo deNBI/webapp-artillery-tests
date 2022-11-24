@@ -1,7 +1,6 @@
 env
 node_modules
 payload/users.csv
-payload/staging_auth.csv
 staging_auth.sh
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij
