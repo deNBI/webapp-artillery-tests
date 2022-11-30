@@ -14,17 +14,21 @@ config:
               dir: "./videos"
       payload:
         path: "./payload/users.csv"
+        order: "sequence"
         fields:
           - "usermail"
           - "password"
+          - "loginType"
 
     staging:
       target: "https://portal-dev.denbi.de/portal/webapp"
       payload:
-        - path: "./payload/users.csv"
-          fields:
-            - "usermail"
-            - "password"
+        path: "./payload/users.csv"
+        order: "sequence"
+        fields:
+          - "usermail"
+          - "password"
+          - "loginType"
       engines:
         playwright:
           launchOptions:

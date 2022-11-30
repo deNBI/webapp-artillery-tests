@@ -20,8 +20,10 @@ exports.VmOverviewPage = class VmOverviewPage {
   }
 
   async goto() {
-    await this.page.goto(`${this.baseURL}/#/virtualmachines/vmOverview`);
-    await this.page.waitForNavigation({ url: '**/vmOverview' });
+    if (this.page.url() !== `${this.baseURL}/#/virtualmachines/vmOverview`) {
+      await this.page.goto(`${this.baseURL}/#/virtualmachines/vmOverview`);
+      await this.page.waitForNavigation({ url: '**/vmOverview' });
+    }
   }
 
   async waitForInstanceToBeActive(vmName, timeout = 10000) {
@@ -47,13 +49,12 @@ exports.VmOverviewPage = class VmOverviewPage {
     await this.page.locator(Util.by_data_test_id_str_prefix(`${this.SHOW_ACTIONS_PREFIX}${vmName}`)).click();
   }
 
-  async deleteVirtualMachine(vmName, timeout = 10000) {
+  async deleteVirtualMachine(vmName) {
     await this.showActions(vmName);
     const locatorDelete = this.page.locator(Util.by_data_test_id_str_prefix(`${this.SHOW_DELETE_VM_PREFIX}${vmName}`));
     await expect(locatorDelete).toBeVisible();
     await locatorDelete.click();
-    await this.page.locator(Util.by_data_test_id_str(this.VERIFY_DELETE_BUTTON)).isVisible();
-    await Util.clickByDataTestIdStr(this.page, this.VERIFY_DELETE_BUTTON);
-    await this.waitForInstanceToBeDeleted(vmName, timeout);
+    await this.page.locator(Util.by_data_test_id_str(this.VERIFY_DELETE_BUTTON)).waitFor({ state: 'visible' });
+    await this.page.locator(Util.by_data_test_id_str(this.VERIFY_DELETE_BUTTON)).click();
   }
 };
