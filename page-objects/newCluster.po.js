@@ -25,7 +25,7 @@ exports.NewClusterPage = class NewClusterPage {
 
   WORKER_FLAVOR_TO_SELECT = 'de_NBI_tiny';
 
-  IMAGE_TO_SELECT = 'ubuntu18_04_de_NBI__C__Master';
+  IMAGE_TO_SELECT = 'ubuntu20_04_de_NBI__C__Master';
 
   WORKER_COUNTER = 'worker_counter';
 
