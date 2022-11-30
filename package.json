@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "test:local": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e local",
-    "test:staging": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e staging",
+    "test:local": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e local -o test-output.json",
+    "test:staging": "./node_modules/.bin/artillery run --config ./artillery.conf.yml -e staging -o test-output.json",
+    "report": "./node_modules/.bin/artillery report test-output.json",
     "lint": "./node_modules/.bin/eslint ./processors/*"
   },
   "dependencies": {

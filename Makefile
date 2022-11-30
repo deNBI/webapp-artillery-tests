@@ -61,6 +61,10 @@ node_modules: package.json ## Activates the virtual environment and creates node
 	. env/bin/activate && \
 	npm install
 
+report: ## Create HTML output of test-output.json
+	. env/bin/activate; \
+	npm run report
+
 .PHONY: default new_environment new_node_modules new_env_and_node check_nodeenv clean_env clean_node_modules
 
 help:

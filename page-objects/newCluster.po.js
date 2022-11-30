@@ -65,7 +65,7 @@ exports.NewClusterPage = class NewClusterPage {
     await this.page.fill(Util.by_data_test_id_str(this.CLUSTER_NAME_INPUT_FIELD), clusterName);
     await this.page.waitForSelector(Util.by_data_test_id_str(this.MASTER_FLAVORS_SECTION), { state: 'visible', timeout: 10 * Util.MINUTE });
     const masterFlavorsSection = this.page.locator(Util.by_data_test_id_str(this.MASTER_FLAVORS_SECTION));
-    await masterFlavorsSection.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.MASTER_FLAVOR_TO_SELECT)).first().click();
+    await masterFlavorsSection.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.MASTER_FLAVOR_TO_SELECT)).click();
     const masterFlavorsSectionAfter = this.page.locator(Util.by_data_test_id_str(this.MASTER_FLAVORS_SECTION));
     await masterFlavorsSectionAfter
       .locator(
@@ -76,7 +76,7 @@ exports.NewClusterPage = class NewClusterPage {
       .waitFor({ state: 'visible' });
     await this.page.waitForSelector(Util.by_data_test_id_str(this.MASTER_IMAGES_SECTION), { state: 'visible', timeout: 10 * Util.MINUTE });
     const masterImagesSection = this.page.locator(Util.by_data_test_id_str(this.MASTER_IMAGES_SECTION));
-    await masterImagesSection.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.IMAGE_TO_SELECT)).click();
+    await masterImagesSection.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.IMAGE_TO_SELECT)).first().click();
     const masterImagesSectionAfter = this.page.locator(Util.by_data_test_id_str(this.MASTER_IMAGES_SECTION));
     const selectedImage = masterImagesSectionAfter.locator(Util.by_data_test_id_str_suffix(this.FLAVOR_IMAGE_SELECTED_SUFFIX));
     await selectedImage
