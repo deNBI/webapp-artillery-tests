@@ -13,7 +13,7 @@ exports.NewVmPage = class NewVmPage {
 
   NORMAL_FLAVOR_TO_SELECT = 'de_NBI_tiny';
 
-  NORMAL_IMAGE_TO_SELECT = 'Ubuntu_18_04_LTS_de_NBI__2022-10-28_';
+  NORMAL_IMAGE_TO_SELECT = 'Ubuntu_18_04_LTS_de_NBI';
 
   ADD_NEW_VOLUME_TAB = 'add_new_volume_tab';
 
@@ -42,6 +42,8 @@ exports.NewVmPage = class NewVmPage {
   REDIRECTING_INSTANCE_OVERVIEW = 'redirecting_instance_overview';
 
   NEW_VM_NAME = 'new_vm_name';
+
+  IMAGE_SECTION = 'image_section';
 
   constructor(page, baseURL) {
     this.page = page;
@@ -76,40 +78,44 @@ exports.NewVmPage = class NewVmPage {
     withResenv = false,
   ) {
     await this.page.fill(Util.by_data_test_id_str(this.INSTANCE_NAME_INPUT_FIELD), vmName);
-    await Util.clickByDataTestIdStr(this.page, this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT);
+    await this.page.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT)).click();
     await this.page
       .locator(
         Util.by_data_test_id_str(
           this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT + this.FLAVOR_IMAGE_SELECTED_SUFFIX,
         ),
       )
-      .isVisible();
-    await Util.clickByDataTestIdStr(this.page, this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT);
-    await this.page
+      .waitFor({ state: 'visible' });
+    await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).click();
+    const imagesSectionAfter = this.page.locator(Util.by_data_test_id_str(this.IMAGE_SECTION));
+    const selectedImage = imagesSectionAfter.locator(Util.by_data_test_id_str_suffix(this.FLAVOR_IMAGE_SELECTED_SUFFIX));
+    await selectedImage
       .locator(
-        Util.by_data_test_id_str(
-          this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT + this.FLAVOR_IMAGE_SELECTED_SUFFIX,
+        Util.by_data_test_id_str_prefix(
+          this.NORMAL_IMAGE_TO_SELECT,
         ),
       )
-      .isVisible();
+      .waitFor({ state: 'visible' });
     if (withVolume) {
-      await Util.clickByDataTestIdStr(this.page, this.ADD_NEW_VOLUME_TAB);
+      await this.page.locator(Util.by_data_test_id_str(this.ADD_NEW_VOLUME_TAB)).click();
       await this.page.fill(Util.by_data_test_id_str(this.NEW_VOLUME_NAME_INPUT), `volume_${applicationName}`);
       await this.page.fill(Util.by_data_test_id_str(this.NEW_VOLUME_MOUNT_PATH_INPUT), 'test');
       await this.page.fill(Util.by_data_test_id_str(this.NEW_VOLUME_STORAGE_INPUT), '1');
-      await Util.clickByDataTestIdStr(this.page, this.NEW_VOLUME_CONFIRMATION_BUTTON);
+      await this.page.locator(Util.by_data_test_id_str(this.NEW_VOLUME_CONFIRMATION_BUTTON)).click();
     }
     if (withResenv) {
-      await Util.clickByDataTestIdStr(this.page, this.RESENV_ACCORDION_HEADING);
-      await Util.clickByDataTestIdStr(this.page, `${this.RESENV_TEMPLATE_PREFIX}${Util.RSTUDIO}`);
+      await this.page.locator(Util.by_data_test_id_str(this.RESENV_ACCORDION_HEADING)).click();
+      await this.page.locator(Util.by_data_test_id_str(this.RESENV_TEMPLATE_PREFIX + Util.RSTUDIO)).click();
       await this.page.fill(Util.by_data_test_id_str(this.RESENV_URL_INPUT), Util.RESENV_URL);
-      await Util.clickByDataTestIdStr(this.page, this.ANSIBLE_NEED_OKAY);
+      await this.page.locator(Util.by_data_test_id_str(this.ANSIBLE_NEED_OKAY)).click();
     }
-    await Util.clickByDataTestIdStr(this.page, this.VM_RESPONSIBILITY_CHECKBOX);
-    await Util.clickByDataTestIdStr(this.page, this.START_VM_BUTTON);
+    await this.page.locator(Util.by_data_test_id_str(this.VM_RESPONSIBILITY_CHECKBOX)).click();
+    await this.page.locator(Util.by_data_test_id_str(this.START_VM_BUTTON)).click();
     await this.page.waitForSelector(Util.by_data_test_id_str(this.REDIRECTING_INSTANCE_OVERVIEW), {
       state: 'visible',
     });
-    return this.page.locator(Util.by_data_test_id_str(this.NEW_VM_NAME)).innerText();
+    const fullVmName = await this.page.locator(Util.by_data_test_id_str(this.NEW_VM_NAME)).innerText();
+    await this.page.waitForNavigation({ url: '**/vmOverview' });
+    return fullVmName;
   }
 };

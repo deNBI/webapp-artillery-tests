@@ -5,8 +5,8 @@
     "lint": "./node_modules/.bin/eslint ./processors/*"
   },
   "dependencies": {
-    "artillery": "^2.0.0-24",
-    "artillery-engine-playwright": "^0.2.1",
+    "artillery": "2.0.0-27",
+    "artillery-engine-playwright": "0.2.1",
     "playwright": "1.28.0",
     "@playwright/test": "1.28.1"
   },

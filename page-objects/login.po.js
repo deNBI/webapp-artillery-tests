@@ -12,6 +12,14 @@ exports.LoginPage = class LoginPage {
     await this.page.goto(`${this.baseURL}/#/`);
   }
 
+  async loginWith(email, psw, type) {
+    if (type === 'orcid') {
+      await this.withOrcid(email, psw);
+    } else if (type === 'hostel') {
+      await this.withHostel(email, psw);
+    }
+  }
+
   async withOrcid(email, psw) {
     await this.goto();
     await this.page.locator("div[class='idp-box idp-ORCID']").click();
@@ -19,6 +27,16 @@ exports.LoginPage = class LoginPage {
     await this.page.type('id=username', email);
     await this.page.type('id=password', psw);
     await this.page.locator('id=signin-button').click();
+    await this.skipElixirTestWarning();
+  }
+
+  async withHostel(email, psw) {
+    await this.goto();
+    await this.page.locator("div[class='idp-box idp-LS username']").click();
+    await this.page.waitForNavigation({ url: 'https://hostel.aai.lifescience-ri.eu/lshostel/**' });
+    await this.page.type('id=username', email);
+    await this.page.type('id=password', psw);
+    await this.page.getByRole('button', { name: 'Login' }).click();
     await this.skipElixirTestWarning();
   }
 

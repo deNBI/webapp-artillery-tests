@@ -5,7 +5,7 @@ config:
       duration: 7
       arrivalRate: 2
 scenarios:
-  - name: 'Start and delete one virtual machine'
+  - name: 'Start and delete one cluster'
     engine: playwright
-    flowFunction: "startAndDeleteVM"
+    flowFunction: "startAndDeleteCluster"
     flow: []
