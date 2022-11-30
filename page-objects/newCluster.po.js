@@ -103,7 +103,7 @@ exports.NewClusterPage = class NewClusterPage {
     await this.page.waitForSelector(Util.by_data_test_id_str(this.REDIRECTING_CLUSTER_OVERVIEW), {
       state: 'visible',
     });
-    const clusterId = await this.page.locator(Util.by_data_test_id_str(this.NEW_CLUSTER_ID)).innerText();
+    const clusterId = await this.page.locator(Util.by_data_test_id_str(this.NEW_CLUSTER_ID)).innerText({ timeout: 10 * Util.MINUTE });
     await this.page.waitForNavigation({ url: '**/clusterOverview', timeout: 10 * Util.MINUTE });
     return clusterId;
   }

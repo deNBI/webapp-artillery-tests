@@ -114,7 +114,7 @@ exports.NewVmPage = class NewVmPage {
     await this.page.waitForSelector(Util.by_data_test_id_str(this.REDIRECTING_INSTANCE_OVERVIEW), {
       state: 'visible',
     });
-    const fullVmName = await this.page.locator(Util.by_data_test_id_str(this.NEW_VM_NAME)).innerText();
+    const fullVmName = await this.page.locator(Util.by_data_test_id_str(this.NEW_VM_NAME)).innerText({ timeout: 10 * Util.MINUTE });
     await this.page.waitForNavigation({ url: '**/vmOverview', timeout: 10 * Util.MINUTE });
     return fullVmName;
   }
