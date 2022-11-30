@@ -76,7 +76,7 @@ exports.NewVmPage = class NewVmPage {
     withResenv = false,
   ) {
     await this.page.fill(Util.by_data_test_id_str(this.INSTANCE_NAME_INPUT_FIELD), vmName);
-    await this.page.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT)).waitFor({ state: 'visible', timeout: 10 * Util.MINUTE });
+    await this.page.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT)).first().waitFor({ state: 'visible', timeout: 10 * Util.MINUTE });
     await this.page.locator(Util.by_data_test_id_str(this.FLAVOR_SELECTION_PREFIX + this.NORMAL_FLAVOR_TO_SELECT)).click();
     await this.page
       .locator(
@@ -85,7 +85,7 @@ exports.NewVmPage = class NewVmPage {
         ),
       )
       .waitFor({ state: 'visible' });
-    await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).waitFor({ state: 'visible', timeout: 10 * Util.MINUTE });
+    await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).first().waitFor({ state: 'visible', timeout: 10 * Util.MINUTE });
     await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).first().click();
     const imagesSectionAfter = this.page.locator(Util.by_data_test_id_str(this.IMAGE_SECTION));
     const selectedImage = imagesSectionAfter.locator(Util.by_data_test_id_str_suffix(this.FLAVOR_IMAGE_SELECTED_SUFFIX));
