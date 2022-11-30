@@ -22,11 +22,11 @@ exports.VmOverviewPage = class VmOverviewPage {
   async goto() {
     if (this.page.url() !== `${this.baseURL}/#/virtualmachines/vmOverview`) {
       await this.page.goto(`${this.baseURL}/#/virtualmachines/vmOverview`);
-      await this.page.waitForNavigation({ url: '**/vmOverview' });
+      await this.page.waitForNavigation({ url: '**/vmOverview', timeout: 10 * Util.MINUTE });
     }
   }
 
-  async waitForInstanceToBeActive(vmName, timeout = 10000) {
+  async waitForInstanceToBeActive(vmName, timeout = 5 * Util.MINUTE) {
     const activeElement = await this.page.waitForSelector(
       Util.by_data_test_id_str_prefix(`${this.ACTIVE_STATUS_PREFIX}${vmName}`),
       {
@@ -38,7 +38,7 @@ exports.VmOverviewPage = class VmOverviewPage {
     return activeElement.isVisible();
   }
 
-  async waitForInstanceToBeDeleted(vmName, timeout = 10000) {
+  async waitForInstanceToBeDeleted(vmName, timeout = 5 * Util.MINUTE) {
     await this.page.waitForSelector(Util.by_data_test_id_str_prefix(`${this.DELETED_STATUS_PREFIX}${vmName}`), {
       state: 'visible',
       timeout,

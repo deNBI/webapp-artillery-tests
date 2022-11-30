@@ -42,7 +42,7 @@ async function deleteVm(page, vuContext, events, vmName) {
   const vmOverviewPage = new VmOverviewPage(page, vuContext.vars.target);
   await vmOverviewPage.goto();
   await vmOverviewPage.deleteVirtualMachine(vmName);
-  await vmOverviewPage.waitForInstanceToBeDeleted(vmName, 12 * 10000);
+  await vmOverviewPage.waitForInstanceToBeDeleted(vmName, 10 * 60000);
   const after = performance.now();
   events.emit('counter', 'vm.deleted', 1);
   events.emit('histogram', 'vm.fromVmOverviewPage-tillDeleted', (after - before));
@@ -64,7 +64,7 @@ async function waitTillClusterRunning(page, vuContext, events, clusterId) {
   const before = performance.now();
   const clusterOverviewPage = new ClusterOverviewPage(page, vuContext.vars.target);
   await clusterOverviewPage.goto();
-  await clusterOverviewPage.waitForClusterToBeRunning(clusterId, 10 * 60000);
+  await clusterOverviewPage.waitForClusterToBeRunning(clusterId, 30 * 60000);
   const after = performance.now();
   events.emit('counter', 'cluster.active', 1);
   events.emit('histogram', 'cluster.fromClusterOverviewPage-tillRunning', (after - before));

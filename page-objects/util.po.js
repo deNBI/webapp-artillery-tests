@@ -3,6 +3,8 @@ exports.Util = class Util {
 
   static RESENV_URL = 'artilleryResEnv';
 
+  static MINUTE = 60000;
+
   static by_data_test_id_str(dataTestId) {
     return `[data-test-id="${dataTestId}"]`;
   }

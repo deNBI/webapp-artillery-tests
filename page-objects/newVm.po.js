@@ -52,12 +52,12 @@ exports.NewVmPage = class NewVmPage {
 
   async goto() {
     await this.page.goto(`${this.baseURL}/#/virtualmachines/newVM`);
-    await this.page.waitForNavigation({ url: '**/newVM' });
-    await this.page.locator('text=New Virtual Machine').waitFor();
+    await this.page.waitForNavigation({ url: '**/newVM', timeout: 10 * Util.MINUTE });
+    await this.page.locator('text=New Virtual Machine').waitFor({ timeout: 15 * Util.MINUTE });
   }
 
   async selectProject(applicationName) {
-    await this.page.waitForSelector(Util.by_data_test_id_str(this.SITE_LOADER), { state: 'hidden' });
+    await this.page.waitForSelector(Util.by_data_test_id_str(this.SITE_LOADER), { state: 'hidden', timeout: 10 * Util.MINUTE });
     const dropdown = await this.page.locator(
       Util.by_data_test_id_str(this.PROJECT_SELECTION_DROPDOWN),
     ).isVisible();
@@ -65,10 +65,8 @@ exports.NewVmPage = class NewVmPage {
       await this.page.selectOption(Util.by_data_test_id_str(this.PROJECT_SELECTION_DROPDOWN), {
         label: applicationName,
       });
-      await this.page.locator(Util.by_data_test_id_str(this.INSTANCE_NAME_INPUT_FIELD)).isVisible();
-    } else {
-      await this.page.locator(Util.by_data_test_id_str(this.INSTANCE_NAME_INPUT_FIELD)).isVisible();
     }
+    await this.page.locator(Util.by_data_test_id_str(this.INSTANCE_NAME_INPUT_FIELD)).waitFor({ state: 'visible', timeout: 10 * Util.MINUTE });
   }
 
   async startNormalVM(
@@ -86,7 +84,7 @@ exports.NewVmPage = class NewVmPage {
         ),
       )
       .waitFor({ state: 'visible' });
-    await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).click();
+    await this.page.locator(Util.by_data_test_id_str_prefix(this.IMAGE_SELECTION_PREFIX + this.NORMAL_IMAGE_TO_SELECT)).first().click();
     const imagesSectionAfter = this.page.locator(Util.by_data_test_id_str(this.IMAGE_SECTION));
     const selectedImage = imagesSectionAfter.locator(Util.by_data_test_id_str_suffix(this.FLAVOR_IMAGE_SELECTED_SUFFIX));
     await selectedImage
@@ -115,7 +113,7 @@ exports.NewVmPage = class NewVmPage {
       state: 'visible',
     });
     const fullVmName = await this.page.locator(Util.by_data_test_id_str(this.NEW_VM_NAME)).innerText();
-    await this.page.waitForNavigation({ url: '**/vmOverview' });
+    await this.page.waitForNavigation({ url: '**/vmOverview', timeout: 10 * Util.MINUTE });
     return fullVmName;
   }
 };
